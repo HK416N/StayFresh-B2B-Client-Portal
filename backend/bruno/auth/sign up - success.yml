@@ -1,0 +1,26 @@
+info:
+  name: sign up - success
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{BASE_URL}}/auth/signup"
+  body:
+    type: json
+    data: |-
+      {
+        "email": "abc2@super.com",
+        "password": "password123",
+        "company_name": "ABC 2 Supermarket",
+        "company_address": "123 Somewhere St",
+        "uen": "64358791725",
+        "contact_number": "67896789"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

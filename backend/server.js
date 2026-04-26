@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import logger from 'morgan';
+import { errorHandler } from './middleware/errorHandler.js';
 
 // Database & Middleware 
 // import { verifyToken } from './middleware/verifyToken.js';
@@ -23,7 +24,7 @@ app.get('/api/health', (req, res) => res.json({ ok: true }));
 // routes go here
 app.use('/api/auth', authRoutes);
 
-//errorhandler when its done
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -5,7 +5,7 @@ import db from '../db.js';
 const saltRounds = 10;
 
 // SIGN UP
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   const {
     email,
     password,
@@ -104,11 +104,7 @@ export const signup = async (req, res) => {
     // - added condition rollback only if client was aquired
     // prevent crashing if the db is down
     if (client) await client.query('ROLLBACK');
-    res.status(500).json({
-      success: false,
-      error: error.message,
-      code: 'SERVER_ERROR',
-    });
+    next(error);
   } finally {
     // release connection
     client.release();
@@ -117,7 +113,7 @@ export const signup = async (req, res) => {
 
 // LOGIN
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
 
   const {
     email,
@@ -171,10 +167,6 @@ export const login = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message,
-      code: 'SERVER_ERROR',
-    });
+    next(error);
   }
 };
