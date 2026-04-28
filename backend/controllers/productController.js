@@ -97,7 +97,7 @@ export const updateProduct = async (req, res, next) => {
 // can be undone good for auditing matches up with real-world inventory 
 // and e-commerce systems according to a quick google search
 // soft delete is actually an UPDATE of is_active from true to false 
-// (if this gets too troublesome i might change it back to a hard DELETE) 
+
 export const softDeleteProduct = async (req, res, next) => {
   try {
     const { rowCount } = await db.query(

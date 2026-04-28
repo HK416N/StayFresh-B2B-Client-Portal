@@ -9,7 +9,8 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 // Routers
 import authRoutes from './routes/authRoutes.js';
-import productRoutes from './routes/productRoutes.js'; // Import the new product routes
+import productRoutes from './routes/productRoutes.js';
+import orderRoutes from './routes/orderRoutes.js'
 
 const app = express();
 const PORT = 3000;
@@ -24,7 +25,8 @@ app.get('/api/health', (req, res) => res.json({ ok: true }));
 
 // routes go here
 app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes); // Use the new product routes
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.use(errorHandler);
 
