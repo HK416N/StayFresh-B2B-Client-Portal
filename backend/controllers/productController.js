@@ -9,7 +9,8 @@ export const getAllProducts = async (req, res, next) => {
     const searchPattern = `%${search || ''}%`;
     let query, params;
 
-    // https://www.postgresql.org/docs/7.3/functions-matching.html - ILIKE instead of LIKE for case insensitive search. To be moved to attributions.
+    // https://www.postgresql.org/docs/7.3/functions-matching.html 
+    // ILIKE instead of LIKE for case insensitive search. To be moved to attributions.
     if (req.user.role === 'Staff') {  //check role 
       query = `
         SELECT id, code, description, price, sale_price, uom, stock, category, is_active
