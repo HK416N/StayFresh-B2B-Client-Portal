@@ -166,6 +166,7 @@ export const login = async (req, res, next) => {
         user: payload,
       }
     });
+    
   } catch (error) {
     next(error);
   }
