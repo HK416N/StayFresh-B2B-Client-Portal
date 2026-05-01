@@ -15,9 +15,16 @@ createRoot(document.getElementById('root')).render(
       <AuthProvider>
         <CartProvider>
           <App />
-          <ToastContainer />
         </CartProvider>
       </AuthProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        theme="light"
+      />
     </BrowserRouter>
   </StrictMode>
 );

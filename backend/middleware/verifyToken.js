@@ -1,15 +1,25 @@
 import jwt from 'jsonwebtoken';
 
 export const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization'];
+  const authHeader = req.headers['authorization'];
 
-  //exit early if there is no token
+  if (!authHeader) {
+    return res.status(401).json({
+      success: false, 
+      error: 'No token provided.',
+      code: 'NO_TOKEN',
+    });
+  }
+
+  // Extract token after Bearer 
+  const token = authHeader.split(' ')[1];  
+
   if (!token) {
     return res.status(401).json({
       success: false, 
       error: 'No token provided.',
       code: 'NO_TOKEN',
-     });
+    });
   }
 
   try {
@@ -20,6 +30,7 @@ export const verifyToken = (req, res, next) => {
     return res.status(401).json({ 
       success: false, 
       error: 'Invalid token.',
-      code: 'INVALID_TOKEN', });
+      code: 'INVALID_TOKEN',
+    });
   }
 };
