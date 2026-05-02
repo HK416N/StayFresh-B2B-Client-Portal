@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
-export default function SignUp() {
+const SignUp = () => {
     const { signup } = useAuth();
     const navigate = useNavigate();
 
@@ -121,8 +121,8 @@ export default function SignUp() {
     );
 }
 
-//helper function to keep the fields a bit cleaner
-function Field({ label, type = 'text', name, value, onChange }) {
+// function to keep the fields a bit cleaner
+const Field = ({ label, type = 'text', name, value, onChange }) => {
     return (
         <label className="block mb-4">
             <span className="text-sm font-medium text-gray-700">{label}</span>
@@ -137,3 +137,5 @@ function Field({ label, type = 'text', name, value, onChange }) {
         </label>
     );
 }
+
+export default SignUp;

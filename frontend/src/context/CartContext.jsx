@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const CartContext = createContext();
 
-export function CartProvider({ children }) {
+export const CartProvider = ({ children }) => {
     // same lazy init as AuthProvider
     const [items, setItems] = useState(() => {
         const savedCart = localStorage.getItem('cart');

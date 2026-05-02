@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 // Debounced text input. onChange fires 300ms after the user stops typing.
-export default function SearchBar({ onChange, placeholder = 'Search...' }) {
+const SearchBar = ({ onChange, placeholder = 'Search...' }) => {
   const [input, setInput] = useState('');
 
   useEffect(() => {
@@ -23,3 +23,5 @@ export default function SearchBar({ onChange, placeholder = 'Search...' }) {
     />
   );
 }
+
+export default SearchBar;

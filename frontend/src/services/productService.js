@@ -7,6 +7,7 @@ import { getAuthHeaders } from "./authService";
 export const getProducts = async (search = '') => {
     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
     // see section under encodeURIComponent()
+// !
     const url = `${BASE_URL}/products?search=${encodeURIComponent(search)}`;
     
     try {
@@ -19,17 +20,11 @@ export const getProducts = async (search = '') => {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
-
-        if (Array.isArray(data)) {
-            return { success: true, data };
-        }
         
-        return { ...data, success: true };
-
         return { 
-            ...data, 
-            success: true 
-        }; //added success: true to all fetches to match error returns
+            success: true, 
+            data: data 
+        };
     
     } catch (error) {
         console.error(error.message);
@@ -58,10 +53,10 @@ export const getProductById = async (id) => {
         }
 
         return { 
-            ...data, 
-            success: true 
+            success: true, 
+            data: data 
         };
-
+    
     } catch (error) {
         console.error(error.message);
 
@@ -89,10 +84,10 @@ export const getProductStats = async () => {
         }
 
     return { 
-        ...data, 
-        success: true 
-    };
-
+            success: true, 
+            data: data 
+        };
+    
     } catch (error) {
         console.error(error.message);
 
@@ -121,8 +116,11 @@ export const createProduct = async (productData) => {
             throw new Error(data.error || `Response status: ${response.status}`);
         }
 
-        return { ...data, success: true };
-
+        return { 
+            success: true, 
+            data: data 
+        };
+    
     } catch (error) {
         console.error(error.message);
 
@@ -151,8 +149,11 @@ export const updateProduct = async (id, productData) => {
             throw new Error(data.error || `Response status: ${response.status}`);
         }
 
-        return { ...data, success: true };
-
+        return { 
+            success: true, 
+            data: data 
+        };
+    
     } catch (error) {
         console.error(error.message);
 
@@ -180,10 +181,14 @@ export const deleteProduct = async (id) => {
             throw new Error(data.error || `Response status: ${response.status}`);
         }
 
-        return { ...data, success: true };
-
+        return { 
+            success: true, 
+            data: data 
+        };
+    
     } catch (error) {
         console.error(error.message);
+
         return { 
             success: false, 
             error: error.message 

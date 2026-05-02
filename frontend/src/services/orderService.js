@@ -20,9 +20,9 @@ export const getOrders = async (statuses = ['PLACED', 'TRANSIT']) => {
             throw new Error(data.error || `Response status: ${response.status}`);
         }
 
-        return {
-            ...data,
-            success: true
+        return { 
+            success: true, 
+            data 
         };
 
     } catch (error) {
@@ -51,7 +51,10 @@ export const getOrderById = async (id) => {
             throw new Error(data.error || `Response status: ${response.status}`);
         }
 
-        return { ...data, success: true };
+        return { 
+            success: true, 
+            data 
+        };
 
     } catch (error) {
         console.error(error.message);
@@ -79,9 +82,9 @@ export const placeOrder = async (items) => {
             throw new Error(data.error || `Response status: ${response.status}`);
         }
 
-        return {
-            ...data,
-            success: true
+        return { 
+            success: true, 
+            data 
         };
 
     } catch (error) {
@@ -111,9 +114,9 @@ export const updateOrderStatus = async (id, status) => {
             throw new Error(data.error || `Response status: ${response.status}`);
         }
 
-        return {
-            ...data,
-            success: true
+        return { 
+            success: true, 
+            data 
         };
 
     } catch (error) {

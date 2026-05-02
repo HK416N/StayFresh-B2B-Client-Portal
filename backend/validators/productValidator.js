@@ -13,6 +13,8 @@ export const validateProduct = [
     .withMessage('Description is required'),
 
   body('price')
+    .exists().withMessage('Price is required')
+    .notEmpty().withMessage('Price cannot be empty')
     .isFloat({ min: 0 })
     .withMessage('Price must be 0 or greater'),
 
@@ -26,6 +28,8 @@ export const validateProduct = [
     .withMessage('Unit of measure is required'),
 
   body('stock')
+    .exists().withMessage('Stock is required')
+    .notEmpty().withMessage('Stock cannot be empty')
     .isInt({ min: 0 })
     .withMessage('Stock must be 0 or greater'),
 

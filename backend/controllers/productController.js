@@ -12,10 +12,11 @@ export const getAllProducts = async (req, res, next) => {
     // https://www.postgresql.org/docs/7.3/functions-matching.html 
     // ILIKE instead of LIKE for case insensitive search. To be moved to attributions.
     if (req.user.role === 'Staff') {  //check role 
+      // bugfix: forgot where is_active= true, caused the deleted item to render in the staff view
       query = `
         SELECT id, code, description, price, sale_price, uom, stock, category, is_active
         FROM products
-        WHERE description ILIKE $1
+        WHERE is_active = TRUE AND description ILIKE $1
         ORDER BY description`; 
       params = [searchPattern];
     } else {
@@ -26,6 +27,7 @@ export const getAllProducts = async (req, res, next) => {
         ORDER BY description`;
       params = [searchPattern];
     }
+    //? if theres time, consider consolidating repeated SQL strings 
 
     const { rows } = await db.query(query, params);
     res.json(rows);
@@ -60,6 +62,7 @@ export const getProductById = async (req, res, next) => {
 export const createProduct = async (req, res, next) => {
   try {
     const { code, description, price, sale_price, uom, stock, category } = req.body;
+    
     const { rows } = await db.query(
       `INSERT INTO products (code, description, price, sale_price, uom, stock, category)
       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,

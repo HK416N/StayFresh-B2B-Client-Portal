@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getProducts, getProductStats } from '../services/productService';
 import Navbar from '../components/Navbar';
 import SearchBar from '../components/SearchBar';
+import { FilterPill, StatCard } from '../components/SubComponents';
+import { AdminProductRow } from '../components/AdminProductRow';
+import { ProductRow } from '../components/ProductRow';
 
-export default function Home() {
+const Home = () => {
     const { user } = useAuth();
 
     const isAdmin = user?.role === 'Staff';
@@ -14,10 +18,10 @@ export default function Home() {
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState('ALL');
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(''); //instead of being lazy and toastifying everythin while console logging the errors
+    const [error, setError] = useState('');
 
     // Fetch products whenever search changes
-    useEffect(()=>{
+    useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await getProducts(search);
@@ -29,19 +33,21 @@ export default function Home() {
                 setLoading(false);
             }
         };
-        
+
         fetchProducts();
     }, [search]);
 
     // fetch stats for staff only
     useEffect(() => {
         const fetchStats = async () => {
-       
+
             if (!isAdmin) return;
-       
+
             try {
                 const statsData = await getProductStats();
-                setStats(statsData);
+
+                setStats(statsData?.data || null);
+
             } catch (error) {
                 console.error("Failed to fetch stats", error);
                 setStats(null);
@@ -69,9 +75,10 @@ export default function Home() {
                 {/* Admin stat cards */}
                 {isAdmin && stats && (
                     <div className="grid grid-cols-3 gap-6 mb-6">
-                        <StatCard label="Active Products" value={stats.activeProducts} />
-                        <StatCard label="Pending Orders" value={stats.pendingOrders} />
-                        <StatCard label="Total Orders" value={stats.totalOrders} />
+                        {/* optional chain in case api returns empty obj */}
+                        <StatCard label="Active Products" value={stats?.activeProducts} />
+                        <StatCard label="Pending Orders" value={stats?.pendingOrders} />
+                        <StatCard label="Total Orders" value={stats?.totalOrders} />
                     </div>
                 )}
 
@@ -88,7 +95,21 @@ export default function Home() {
                             Vegetables
                         </FilterPill>
                     </div>
-                    <SearchBar onChange={setSearch} placeholder="Search products..." />
+                    <div className="flex justify-end items-center gap-4">
+                        {isAdmin && (
+                            <Link
+                                to="/products/new"
+                                className="whitespace-nowrap inline-flex items-center gap-1 border border-gray-200 bg-white 
+                                hover:bg-gray-50 text-gray-700 font-medium px-4 py-2 rounded-md"
+                            >
+                                {/* add lucide icon */}
+                                <span className="text-green-600"></span> New Product
+                            </Link>
+                        )}
+                        
+                        <SearchBar onChange={setSearch} placeholder="Search products..." />
+                        
+                    </div>
                 </div>
 
                 {/* Error state */}
@@ -98,7 +119,7 @@ export default function Home() {
                     </div>
                 )}
 
-                {/* Loading ? empty : data states */}
+                {/* Loading ? empty : (isAdmin ? <AdminProductRow /> : <ProductRow />) */}
                 {loading ? (
                     <div className="text-center text-gray-500 py-12">Loading...</div>
                 ) : visible.length === 0 ? (
@@ -114,23 +135,18 @@ export default function Home() {
                                     <th className="text-left p-4">UOM</th>
                                     <th className="text-left p-4">Category</th>
                                     <th className="text-right p-4">Stock</th>
+                                    {isAdmin && <th className="text-center p-4">View</th>}
+                                    {!isAdmin && <th className="text-center p-4">Add to Order</th>}
                                 </tr>
                             </thead>
                             <tbody>
-                                {visible.map((product) => (
-                                    <tr key={product.id} className="border-t border-gray-100">
-                                        <td className="p-4">{product.code}</td>
-                                        <td className="p-4">{product.description}</td>
-                                        {!isAdmin && (
-                                            <td className="p-4 text-right">${Number(product.sale_price).toFixed(2)}</td>
-                                        )}
-                                        <td className="p-4">{product.uom}</td>
-                                        <td className="p-4">{product.category}</td>
-                                        <td className={`p-4 text-right ${product.stock < 15 ? 'text-red-600 font-medium' : ''}`}>
-                                            {product.stock}
-                                        </td>
-                                    </tr>
-                                ))}
+                                {visible.map((product) =>
+                                    isAdmin ? (
+                                        <AdminProductRow key={product.id} product={product} />
+                                    ) : (
+                                        <ProductRow key={product.id} product={product} />
+                                    )
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -140,25 +156,4 @@ export default function Home() {
     );
 }
 
-function StatCard({ label, value }) {
-    return (
-        <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm text-gray-500 mb-1">{label}</div>
-            <div className="text-3xl font-bold text-gray-900">{value}</div>
-        </div>
-    );
-}
-
-function FilterPill({ active, onClick, children }) {
-    return (
-        <button
-            onClick={onClick}
-            className={`px-4 py-1 rounded-full text-sm border ${active
-                    ? 'bg-green-600 text-white border-green-600'
-                    : 'bg-white text-gray-700 border-gray-200 hover:border-gray-300'
-                }`}
-        >
-            {children}
-        </button>
-    );
-}
+export default Home;

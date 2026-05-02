@@ -5,7 +5,7 @@ import * as authService from '../services/authService';
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
     
     const [token, setToken] = useState(() => localStorage.getItem('token'));
     const [user, setUser] = useState(() => {

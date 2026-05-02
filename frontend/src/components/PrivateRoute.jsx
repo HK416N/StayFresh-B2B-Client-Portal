@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export default function PrivateRoute({ children, requireStaff = false, requireClient = false }) {
+const PrivateRoute = ({ children, requireStaff = false, requireClient = false }) => {
     const { user } = useAuth();
 
     // navigate to /login if not an existing user
@@ -13,3 +13,5 @@ export default function PrivateRoute({ children, requireStaff = false, requireCl
 
     return children;
 }
+
+export default PrivateRoute;

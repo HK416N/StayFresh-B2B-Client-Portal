@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
-export default function Login() {
+const Login = () => {
     const { login } = useAuth();
     
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -81,3 +81,5 @@ export default function Login() {
         </div>
     );
 }
+
+export default Login;
