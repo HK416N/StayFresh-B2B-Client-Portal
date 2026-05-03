@@ -7,6 +7,9 @@ import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import AddProduct from './pages/AddProduct';
 import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
+import Orders from './pages/Orders';
+
 
 
 function HomePlaceholder() {
@@ -28,6 +31,8 @@ export default function App() {
         path="/products/:id"
         element={<PrivateRoute requireStaff><ProductDetail /></PrivateRoute>}
       />
+      <Route path="/cart" element={<PrivateRoute requireClient><Cart /></PrivateRoute>} />
+      <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
     </Routes>
   );
 }

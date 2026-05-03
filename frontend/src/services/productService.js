@@ -5,195 +5,195 @@ import { getAuthHeaders } from "./authService";
 
 // list with optional filtering
 export const getProducts = async (search = '') => {
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
-    // see section under encodeURIComponent()
-// !
-    const url = `${BASE_URL}/products?search=${encodeURIComponent(search)}`;
-    
-    try {
-        const response = await fetch(url, {
-            headers: getAuthHeaders(),
-        });
-        
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-        
-        return { 
-            success: true, 
-            data: data 
-        };
-    
-    } catch (error) {
-        console.error(error.message);
+  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
+  // see section under encodeURIComponent()
+  // !
+  const url = `${BASE_URL}/products?search=${encodeURIComponent(search)}`;
 
-        return { 
-            success: false, 
-            error: error.message 
-        };
+  try {
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
+
+    return {
+      success: true,
+      data: data
+    };
+
+  } catch (error) {
+    console.error(error.message);
+
+    return {
+      success: false,
+      error: error.message
+    };
+  }
 };
 
 // get one
 export const getProductById = async (id) => {
 
-    const url = `${BASE_URL}/products/${id}`;
+  const url = `${BASE_URL}/products/${id}`;
 
-    try {
-        const response = await fetch(url, {
-            headers: getAuthHeaders(),
-        });
+  try {
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
+    });
 
-        const data = await response.json();
+    const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-
-        return { 
-            success: true, 
-            data: data 
-        };
-    
-    } catch (error) {
-        console.error(error.message);
-
-        return { 
-            success: false, 
-            error: error.message 
-        };
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
+
+    return {
+      success: true,
+      data: data
+    };
+
+  } catch (error) {
+    console.error(error.message);
+
+    return {
+      success: false,
+      error: error.message
+    };
+  }
 };
 
 //product stats for stat card on admin dashboard (home)
 export const getProductStats = async () => {
 
-    const url = `${BASE_URL}/products/stats`;
+  const url = `${BASE_URL}/products/stats`;
 
-    try {
-        const response = await fetch(url, {
-        headers: getAuthHeaders(),
-        });
+  try {
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
+    });
 
-        const data = await response.json();
+    const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-
-    return { 
-            success: true, 
-            data: data 
-        };
-    
-    } catch (error) {
-        console.error(error.message);
-
-        return { 
-            success: false, 
-            error: error.message 
-        };
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
+
+    return {
+      success: true,
+      data: data
+    };
+
+  } catch (error) {
+    console.error(error.message);
+
+    return {
+      success: false,
+      error: error.message
+    };
+  }
 };
 
 // create product 
 export const createProduct = async (productData) => {
 
-    const url = `${BASE_URL}/products`;
-    
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(productData),
-        });
+  const url = `${BASE_URL}/products`;
 
-        const data = await response.json();
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(productData),
+    });
 
-        if (!response.ok) {
-            throw new Error(data.error || `Response status: ${response.status}`);
-        }
+    const data = await response.json();
 
-        return { 
-            success: true, 
-            data: data 
-        };
-    
-    } catch (error) {
-        console.error(error.message);
-
-        return { 
-            success: false, 
-            error: error.message 
-        };
+    if (!response.ok) {
+      throw new Error(data.error || `Response status: ${response.status}`);
     }
+
+    return {
+      success: true,
+      data: data
+    };
+
+  } catch (error) {
+    console.error(error.message);
+
+    return {
+      success: false,
+      error: error.message
+    };
+  }
 };
 
 // edit prodcut
 export const updateProduct = async (id, productData) => {
 
-    const url = `${BASE_URL}/products/${id}`;
+  const url = `${BASE_URL}/products/${id}`;
 
-    try {
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(productData),
-        });
+  try {
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(productData),
+    });
 
-        const data = await response.json();
+    const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.error || `Response status: ${response.status}`);
-        }
-
-        return { 
-            success: true, 
-            data: data 
-        };
-    
-    } catch (error) {
-        console.error(error.message);
-
-        return { 
-            success: false, 
-            error: error.message 
-        };
+    if (!response.ok) {
+      throw new Error(data.error || `Response status: ${response.status}`);
     }
+
+    return {
+      success: true,
+      data: data
+    };
+
+  } catch (error) {
+    console.error(error.message);
+
+    return {
+      success: false,
+      error: error.message
+    };
+  }
 };
 
 //delete product
 export const deleteProduct = async (id) => {
 
-    const url = `${BASE_URL}/products/${id}`;
+  const url = `${BASE_URL}/products/${id}`;
 
-    try {
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: getAuthHeaders(),
-        });
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
 
-        const data = await response.json();
+    const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.error || `Response status: ${response.status}`);
-        }
-
-        return { 
-            success: true, 
-            data: data 
-        };
-    
-    } catch (error) {
-        console.error(error.message);
-
-        return { 
-            success: false, 
-            error: error.message 
-        };
+    if (!response.ok) {
+      throw new Error(data.error || `Response status: ${response.status}`);
     }
+
+    return {
+      success: true,
+      data: data
+    };
+
+  } catch (error) {
+    console.error(error.message);
+
+    return {
+      success: false,
+      error: error.message
+    };
+  }
 };
 
 
