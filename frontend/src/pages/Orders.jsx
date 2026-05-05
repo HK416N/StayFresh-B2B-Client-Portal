@@ -6,6 +6,7 @@ import { getOrders, updateOrderStatus } from '../services/orderService';
 import { formatStatus } from '../utils/formatStatus';
 import Navbar from '../components/Navbar';
 import ConfirmModal from '../components/ConfirmModal';
+import { ArrowLeft, Eye, X } from 'lucide-react';
 
 const Orders = () => {
   const { user } = useAuth();
@@ -72,7 +73,7 @@ const Orders = () => {
           {isAdmin ? 'Pending Orders' : 'My Orders'}
         </h1>
         <Link to="/home" className="text-sm text-gray-600 hover:text-gray-900 mb-6 inline-flex items-center gap-1">
-          Back to Home
+          <ArrowLeft className="w-4 h-4" /> Home
         </Link>
 
         {/* Error state */}
@@ -117,14 +118,14 @@ const Orders = () => {
                           className="text-green-700 hover:text-green-800"
                           title="View order"
                         >
-                          View
+                          <Eye className="w-5 h-5" />
                         </button>
                         <button
                           onClick={() => setCancelTargetId(order.id)}
                           className="text-red-600 hover:text-red-700"
                           title="Cancel order"
                         >
-                          Cancel
+                          <X className="w-5 h-5" />
                         </button>
                       </div>
                     </td>

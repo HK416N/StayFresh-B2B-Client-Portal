@@ -19,9 +19,35 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(items));
   }, [items]);
 
+  //check how many items are already in the cart
+  const getCartQuantity = (productId) => {
+    const item = items.find((i) => i.product_id === productId);
+    return item ? item.quantity : 0;
+  };
+
+  
   const addToCart = (product, quantity) => {
     //guard
-    if (quantity <= 0) return;
+    if (quantity <= 0) {
+      return { 
+        success: false, 
+        error: 'Quantity must be 1 or more'
+      };
+    }
+
+    const alreadyInCart = getCartQuantity(product.id);
+    const newTotal = alreadyInCart + quantity;
+
+    if (newTotal > product.stock) {
+      const remaining = product.stock - alreadyInCart;
+      return {
+        success: false,
+        error:
+          remaining > 0
+            ? `Only ${remaining} ${product.uom} left available (${alreadyInCart} already in cart)`
+            : `${product.description} is fully reserved in cart`,
+      };
+    }
 
     setItems((prevState) => {
       //find existing item to add new quantity to it
@@ -49,15 +75,34 @@ export const CartProvider = ({ children }) => {
         },
       ];
     });
+
+    return { success: true };
   };
 
 
   // update
+  // similar logic.. map prev state creating a new array,
+  // looks for item by product id (look for specific row), 
+  // spread item when row is found,
+  // update the quantity. if id doesnt match just return row as is  
   const updateQuantity = (productId, quantity) => {
-    // similar logic.. map prev state creating a new array,
-    // looks for item by product id (look for specific row), 
-    // spread item when row is found,
-    // update the quantity. if id doesnt match just return row as is  
+
+    //guards. prevents 0 or negative additions to cart
+    if (quantity <= 0) {
+      return { 
+        success: false, 
+        error: 'Quantity must be 1 or more' 
+      };
+    }
+
+    // prevent adding more products than available stock
+    if (quantity > item.stock) {
+      return {
+        success: false,
+        error: `Only ${item.stock} ${item.uom} available`,
+      };
+    }
+
     setItems((prevState) =>
       prevState.map((item) => (
         item.product_id === productId
@@ -65,6 +110,8 @@ export const CartProvider = ({ children }) => {
           : item
       ))
     );
+
+    return { success: true };
   };
 
   // delete using filter - setItems  to everything that is NOT productId
@@ -80,7 +127,7 @@ export const CartProvider = ({ children }) => {
   };
 
   // Derived values - automatically recalculated when 'items' changes
-  const total = items.reduce((sum, i) => sum + i.sale_price * i.quantity, 0);
+  const total = items.reduce((sum, item) => sum + item.sale_price * item.quantity, 0);
   // counting individual items (quantity) turned out to be silly. 
   // changed to count the array length so the notification only shows the number of items not the total QTY 
   const itemCount = items.length;
@@ -94,6 +141,7 @@ export const CartProvider = ({ children }) => {
         updateQuantity,
         removeFromCart,
         clearCart,
+        getCartQuantity,
         total,
         itemCount,
       }}

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { ShoppingCart, LogOut } from 'lucide-react'
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -34,22 +35,24 @@ const Navbar = () => {
             {/* only clients will see cart */}
             {isClient && (
               <Link to="/cart" className="relative hover:text-green-200">
-                Cart
+                <ShoppingCart className="w-5 h-5" />
                 {itemCount > 0 && (
                   <span className="
                                 absolute -top-2 -right-4 bg-white text-green-800 
                                 text-xs font-bold rounded-full w-5 h-5 
                                 flex items-center justify-center
                                 ">
-                    {/* todo: adjust itemCount logic */}
                     {itemCount}
                   </span>
                 )}
               </Link>
             )}
 
-            <button onClick={handleLogout} className="hover:text-green-200">
-              Logout
+            <button onClick={handleLogout}
+              className="hover:text-green-200 inline-flex items-center gap-1"
+              title="Logout"
+            >
+              Logout <LogOut className="w-4 h-4" />
             </button>
           </div>
         </div>

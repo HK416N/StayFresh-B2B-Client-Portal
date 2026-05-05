@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { Eye } from 'lucide-react';
 
 // Admin's view of a single product row in the Home table.
 // Read-only data plus a View action that goes to ProductDetail.
@@ -24,7 +25,7 @@ export const AdminProductRow = ({ product }) => {
           className="text-green-700 hover:text-green-800 text-lg"
           title="View product"
         >
-          View
+          <Eye className="w-5 h-5" />
         </button>
       </td>
     </tr>

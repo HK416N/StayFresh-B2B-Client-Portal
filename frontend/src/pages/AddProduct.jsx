@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { createProduct } from '../services/productService';
 import { Field, SelectField } from '../components/SubComponents';
 import Navbar from '../components/Navbar';
+import { ArrowLeft } from 'lucide-react';
 
 const UOM_OPTIONS = ['KGS', 'BOX', 'CTN'];
 const CATEGORY_OPTIONS = ['FRUIT', 'VEGETABLE'];
@@ -73,7 +74,7 @@ const AddProduct = () => {
         <h1 className="text-2xl font-medium text-gray-900 mb-2">Add Product</h1>
         <Link to="/home" className="text-sm text-gray-600 hover:text-gray-900 
                 mb-6 inline-flex items-center gap-1">
-          Back to Home
+          <ArrowLeft className="w-4 h-4" /> Home
         </Link>
 
         <div className="bg-blue-50/30 border border-gray-200 rounded-lg p-8 mt-4">

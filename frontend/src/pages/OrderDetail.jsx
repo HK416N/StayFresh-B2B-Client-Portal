@@ -6,6 +6,7 @@ import { getOrderById, updateOrderStatus } from '../services/orderService';
 import { formatStatus } from '../utils/formatStatus';
 import Navbar from '../components/Navbar';
 import ConfirmModal from '../components/ConfirmModal';
+import { ArrowLeft } from 'lucide-react';
 
 const OrderDetail = () => {
   const { id } = useParams();
@@ -73,7 +74,7 @@ const OrderDetail = () => {
         <Navbar />
         <div className="max-w-3x1 mx-auto px-6 py-8">
           <Link to="/orders" className="text-sm text-gray-600 hover:text-gray-900 mb-4 inline-flex items-center gap-1">
-            Orders
+            <ArrowLeft className="w-4 h-4" /> Orders
           </Link>
           <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm mt-4">
             {error || 'Order not found'}

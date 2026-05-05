@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Search } from 'lucide-react';
 
 // Debounced text input. onChange fires 300ms after the user stops typing.
 const SearchBar = ({ onChange, placeholder = 'Search...' }) => {
@@ -14,13 +15,16 @@ const SearchBar = ({ onChange, placeholder = 'Search...' }) => {
   }, [input, onChange]);
 
   return (
-    <input
-      type="search"
-      value={input}
-      onChange={(event) => setInput(event.target.value)}
-      placeholder={placeholder}
-      className="w-full max-w-sm border border-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-green-600"
-    />
+    <div className="relative w-full max-w-sm">
+      <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+      <input
+        type="text"
+        value={input}
+        onChange={(event) => setInput(event.target.value)}
+        placeholder={placeholder}
+        className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-green-600"
+      />
+    </div>
   );
 }
 

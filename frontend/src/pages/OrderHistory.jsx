@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { getOrders } from "../services/orderService";
 import { formatStatus } from "../utils/formatStatus";
 import Navbar from "../components/Navbar";
+import { ArrowLeft, Eye } from "lucide-react";
 
 const OrderHistory = () => {
   const { user } = useAuth();
@@ -41,7 +42,7 @@ const OrderHistory = () => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <h1 className="text-2xl font-medium text-gray-900 mb-2">Order History</h1>
         <Link to="/home" className="text-sm text-gray-600 hover:text-gray-900 mb-6 inline-flex items-center gap-1">
-          Back to Home
+          <ArrowLeft className="w-4 h-4" /> Home
         </Link>
 
         {/* Error state */}
@@ -83,7 +84,7 @@ const OrderHistory = () => {
                         className="text-green-700 hover:text-green-800"
                         title="View order"
                       >
-                        View
+                        <Eye className="w-5 h-5" />
                       </button>
                     </td>
                   </tr>

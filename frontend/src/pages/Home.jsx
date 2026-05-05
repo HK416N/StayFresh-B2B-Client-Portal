@@ -7,6 +7,7 @@ import SearchBar from '../components/SearchBar';
 import { FilterPill, StatCard } from '../components/SubComponents';
 import { AdminProductRow } from '../components/AdminProductRow';
 import { ProductRow } from '../components/ProductRow';
+import { Plus } from 'lucide-react';
 
 const Home = () => {
   const { user } = useAuth();
@@ -102,8 +103,7 @@ const Home = () => {
                 className="whitespace-nowrap inline-flex items-center gap-1 border border-gray-200 bg-white 
                                 hover:bg-gray-50 text-gray-700 font-medium px-4 py-2 rounded-md"
               >
-                {/* add lucide icon */}
-                <span className="text-green-600"></span> New Product
+                <Plus className="w-4 h-4 text-green-600" /> New Product
               </Link>
             )}
 

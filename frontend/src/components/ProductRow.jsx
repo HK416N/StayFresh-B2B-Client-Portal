@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useCart } from '../context/CartContext';
+import { ShoppingCart } from 'lucide-react';
 
 // One row for the customer Home table. Has a qty input and add-to-cart button.
 export const ProductRow = ({ product }) => {
-  const { addToCart } = useCart();
+  const { addToCart, getCartQuantity  } = useCart();
   const [quantity, setQuantity] = useState(1);
 
+  // Stock available to this user = DB stock - whats in their cart
+  const inCart = getCartQuantity(product.id);
+  const available = product.stock - inCart;
   const outOfStock = product.stock === 0;
 
   const handleAdd = () => {
@@ -15,15 +19,18 @@ export const ProductRow = ({ product }) => {
       toast.error('Enter a valid quantity');
       return;
     }
-    if (qty > product.stock) {
-      toast.error(`Only ${product.stock} ${product.uom} available`);
+
+    // CartContext does the real validation — we just react to its result
+    const result = addToCart(product, qty);
+    if (!result.success) {
+      toast.error(result.error);
       return;
     }
-    addToCart(product, qty);
+
     toast.success(`Added ${qty} ${product.uom} of ${product.description}`);
     setQuantity(1);
   };
-
+  
   return (
     <tr className="border-t border-gray-100">
       <td className="p-4">{product.code}</td>
@@ -31,9 +38,14 @@ export const ProductRow = ({ product }) => {
       <td className="p-4 text-right">${Number(product.sale_price).toFixed(2)}</td>
       <td className="p-4">{product.uom}</td>
       <td className="p-4">{product.category}</td>
-      {/* highlight low stock. stock < 15 */}
+      {/* highlight low stock. stock < 15 - can be changed based on what is considered low stock */}
       <td className={`p-4 text-right ${product.stock < 15 ? 'text-red-600 font-medium' : ''}`}>
-        {product.stock}
+        {available}
+        {inCart > 0 && (
+          <span className="block text-xs text-gray-400 font-normal">
+            ({inCart} in cart)
+          </span>
+        )}
       </td>
       <td className="p-4">
         <div className="flex items-center gap-5 justify-center">
@@ -42,7 +54,7 @@ export const ProductRow = ({ product }) => {
             min="1"
             max={product.stock}
             value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={(event) => setQuantity(event.target.value)}
             disabled={outOfStock}
             className="w-20 border border-gray-200 rounded-md px-2 py-1 disabled:bg-gray-100"
           />
@@ -54,7 +66,7 @@ export const ProductRow = ({ product }) => {
               className="text-green-700 hover:text-green-800 text-lg"
               title="Add to cart"
             >
-              Add
+              <ShoppingCart className="w-5 h-5" />
             </button>
           )}
         </div>

@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { placeOrder } from '../services/orderService';
 import Navbar from '../components/Navbar';
 import ConfirmModal from '../components/ConfirmModal';
+import { ArrowLeft, Pencil, X } from 'lucide-react';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -81,7 +82,7 @@ const Cart = () => {
             Create New Order
           </h1>
           <Link to="/home" className="text-sm text-gray-600 hover:text-gray-900 mb-6 inline-flex items-center gap-1">
-            Back to Home
+            <ArrowLeft className="w-4 h-4" /> Home
           </Link>
 
           <div className="bg-white rounded-lg shadow p-12 text-center text-gray-500 mt-4">
@@ -109,7 +110,7 @@ const Cart = () => {
           Create New Order
         </h1>
         <Link to="/home" className="text-sm text-gray-600 hover:text-gray-900 mb-6 inline-flex items-center gap-1">
-          Back to Home
+          <ArrowLeft className="w-4 h-4" /> Home
         </Link>
 
         <div className="bg-blue-50/30 border border-gray-200 rounded-lg p-6 mt-4">
@@ -174,14 +175,14 @@ const Cart = () => {
                           className="text-gray-600 hover:text-gray-800"
                           title="Edit quantity"
                         >
-                          Edit
+                          <Pencil className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleRemove(item)}
                           className="text-red-600 hover:text-red-700"
                           title="Remove item"
                         >
-                          Remove
+                          <X className="w-4 h-4" />
                         </button>
                       </div>
                     )}
