@@ -65,7 +65,7 @@ const OrderHistory = () => {
                   <th className="text-left p-4">Order ID</th>
                   <th className="text-left p-4">Client</th>
                   <th className="text-right p-4">Total</th>
-                  <th className="text-left p-4">Status</th>
+                  <th className="text-center p-4">Status</th>
                   <th className="text-center p-4">View</th>
                 </tr>
               </thead>
@@ -75,7 +75,7 @@ const OrderHistory = () => {
                     <td className="p-4">{order.id}</td>
                     <td className="p-4">{order.company_name || '—'}</td>
                     <td className="p-4 text-right">${Number(order.total).toFixed(2)}</td>
-                    <td className="p-4 font-medium tracking-wide">
+                    <td className="p-4 font-medium tracking-wide text-center">
                       {formatStatus(order.status)}
                     </td>
                     <td className="p-4 text-center">

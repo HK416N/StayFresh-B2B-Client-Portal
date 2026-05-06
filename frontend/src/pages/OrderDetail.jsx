@@ -102,7 +102,7 @@ const OrderDetail = () => {
           {heading}
         </h1>
         <Link to="/orders" className="text-sm text-gray-600 hover:text-gray-900 mb-6 inline-flex items-center gap-1">
-          Back to Orders
+          <ArrowLeft className="w-4 h-4" /> Orders
         </Link>
 
         <div className="bg-blue-50/30 border border-gray-200 rounded-lg p-6 mt-4">
